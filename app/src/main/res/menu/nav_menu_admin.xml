@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+    <group android:id="@+id/adminListDrawer">
+        <item
+            android:id="@+id/adminNavDrawerHome"
+            android:title="Home"
+            android:icon="@drawable/baseline_home_24"/>
+        <item
+            android:id="@+id/adminNavDrawerKotaKabTerdaftar"
+            android:title="Kota/Kab Terdaftar"
+            android:icon="@drawable/icon_kota_kab"/>
+        <item
+            android:id="@+id/adminNavDrawerStasiun"
+            android:title="Stasiun"
+            android:icon="@drawable/icon_stasiun"/>
+        <item
+            android:id="@+id/adminNavDrawerRute"
+            android:title="Rute"
+            android:icon="@drawable/icon_rute"/>
+        <item
+            android:id="@+id/adminNavDrawerTiket"
+            android:title="Tiket"
+            android:icon="@drawable/icon_tiket_kereta"/>
+        <item
+            android:id="@+id/adminNavDrawerPesanan"
+            android:title="Pesanan"
+            android:icon="@drawable/icon_pesanan"/>
+        <item
+            android:id="@+id/adminNavDrawerSemuaAkun"
+            android:title="Semua Akun"
+            android:icon="@drawable/icon_peoples"/>
+    </group>
+
+    <group android:id="@+id/adminDrawerBottom">
+        <item android:id="@+id/btnAdminKeluar"
+            android:title="Logout"
+            android:icon="@drawable/baseline_exit_to_app_24"/>
+    </group>
+</menu>

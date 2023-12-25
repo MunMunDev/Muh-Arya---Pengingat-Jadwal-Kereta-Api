@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+    <group android:id="@+id/userListDrawer">
+        <item
+            android:id="@+id/userNavDrawerHome"
+            android:title="Halaman Home"
+            android:icon="@drawable/baseline_home_24"/>
+        <item
+            android:id="@+id/userNavDrawerYourAgenda"
+            android:title="Jadwal Anda"
+            android:icon="@drawable/icon_list_check"/>
+        <item
+            android:id="@+id/userNavDrawerAllJadwal"
+            android:title="Semua Jadwal"
+            android:icon="@drawable/icon_calender"/>
+        <item
+            android:id="@+id/userNavDrawerAkun"
+            android:title="Akun Anda"
+            android:icon="@drawable/baseline_person_24"/>
+    </group>
+
+    <group android:id="@+id/userDrawerBottom">
+        <item android:id="@+id/userBtnKeluar"
+            android:title="Logout"
+            android:icon="@drawable/baseline_exit_to_app_24"/>
+    </group>
+</menu>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<!--    <color name="black">#FF000000</color>-->
+<!--    <color name="white">#FFFFFFFF</color>-->
+    <color name="black">#101014</color>
+    <color name="white">#FFFFFF</color>
+    <color name="bg_white">#F5F5FA</color>
+    <!-- Color -->
+    <color name="success">#73B908</color>
+    <color name="danger">#DE252A</color>
+    <color name="merah">#FF0E15</color>
+    <color name="batal">#747496</color>
+    <color name="edit">#F0AD4E</color>
+    <color name="edit2">#EEE8A9</color>
+    <color name="abuabu_muda_sekali">#CCEEEEEE</color>
+    <color name="abuabu_muda">#E6E6E6</color>
+    <color name="abuabu_tua">#767676</color>
+    <color name="biru">#2596F7</color>
+    <color name="biru_bg_main">#0091CA</color>
+    <color name="biru_tua">#1A74C1</color>
+</resources>

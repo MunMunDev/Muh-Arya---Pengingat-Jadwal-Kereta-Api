@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/status"
+        android:title="Ubah Status Alarm" />
+    <item android:id="@+id/edit"
+        android:title="Edit Waktu Alarm"/>
+    <item android:id="@+id/rincian"
+        android:title="Rincian Notifikasi" />
+</menu>

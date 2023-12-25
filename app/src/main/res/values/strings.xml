@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Pengingat Jadwal Kereta Api</string>
+    <string name="login">Login</string>
+    <string-array name="kota_kab">
+        <item>Barru</item>
+        <item>Pangkep</item>
+        <item>Maros</item>
+    </string-array>
+</resources>

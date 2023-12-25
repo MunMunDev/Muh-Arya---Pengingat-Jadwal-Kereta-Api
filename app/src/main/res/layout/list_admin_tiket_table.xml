@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/tvNo"
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:text="NO"
+        android:textSize="14sp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:background="@drawable/bg_table"/>
+    <TextView
+        android:id="@+id/tvTanggal"
+        android:layout_width="170dp"
+        android:layout_height="wrap_content"
+        android:text="Senin, 28 Agust 2023"
+        android:textSize="14sp"
+        android:textColor="@color/black"
+        android:textStyle="normal"
+        android:background="@drawable/bg_table"/>
+    <TextView
+        android:id="@+id/tvWaktu"
+        android:layout_width="110dp"
+        android:layout_height="wrap_content"
+        android:text="13:00 WITA"
+        android:textSize="14sp"
+        android:textColor="@color/black"
+        android:textStyle="normal"
+        android:background="@drawable/bg_table"/>
+    <TextView
+        android:id="@+id/tvDariKotaKab"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:text="Parepare"
+        android:textSize="14sp"
+        android:textColor="@color/black"
+        android:textStyle="normal"
+        android:background="@drawable/bg_table"/>
+    <TextView
+        android:id="@+id/tvDariStasiun"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:text="ST. Tanete Rilau"
+        android:textSize="14sp"
+        android:textColor="@color/black"
+        android:textStyle="normal"
+        android:background="@drawable/bg_table"/>
+    <TextView
+        android:id="@+id/tvSampaiKotaKab"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:text="Sampai Kota Kab"
+        android:textSize="14sp"
+        android:textColor="@color/black"
+        android:textStyle="normal"
+        android:background="@drawable/bg_table"/>
+    <TextView
+        android:id="@+id/tvSampaiStasiun"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
+        android:text="Tanete Rilau"
+        android:textSize="14sp"
+        android:textColor="@color/black"
+        android:textStyle="normal"
+        android:background="@drawable/bg_table"/>
+    <TextView
+        android:id="@+id/tvJumlahTiket"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:text="40"
+        android:textSize="14sp"
+        android:textColor="@color/black"
+        android:textStyle="normal"
+        android:background="@drawable/bg_table"/>
+    <TextView
+        android:id="@+id/tvHarga"
+        android:layout_width="110dp"
+        android:layout_height="wrap_content"
+        android:text="Rp. 10.000"
+        android:textSize="14sp"
+        android:textColor="@color/black"
+        android:textStyle="normal"
+        android:background="@drawable/bg_table"/>
+    <TextView
+        android:id="@+id/tvSetting"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:text=":::"
+        android:textSize="14sp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:background="@drawable/bg_table"/>
+
+</LinearLayout>
