@@ -18,4 +18,11 @@
     <color name="biru">#2596F7</color>
     <color name="biru_bg_main">#0091CA</color>
     <color name="biru_tua">#1A74C1</color>
+
+    <color name="circleColor">#9520B3</color>
+    <color name="circleColor1">#6B9D3A</color>
+    <color name="circleColor2">#F1407C</color>
+    <color name="circleColor3">#008ACC</color>
+    <color name="circleColor4">#789196</color>
+    <color name="circleColor5">#ED6D01</color>
 </resources>

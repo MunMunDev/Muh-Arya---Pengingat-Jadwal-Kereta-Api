@@ -6,4 +6,8 @@
         <item>Pangkep</item>
         <item>Maros</item>
     </string-array>
+
+    <string name="map_api_key">AIzaSyBnHGNoiS7ugilxPTK_g_T4Ek87NfuYIVA</string>
+
+    <string name="string_gambar">Klik untuk mengambil gambar</string>
 </resources>

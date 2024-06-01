@@ -10,7 +10,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.ContextCompat.checkSelfPermission
 import com.example.muharya_pengingatjadwalkeretaapi.R
-import com.example.muharya_pengingatjadwalkeretaapi.ui.activity.YourAgendaActivity
+import com.example.muharya_pengingatjadwalkeretaapi.ui.activity.user.YourAgendaActivity
 
 class AlarmNotificationReceiver() : BroadcastReceiver() {
     lateinit var tanggalDanWaktu: TanggalDanWaktu

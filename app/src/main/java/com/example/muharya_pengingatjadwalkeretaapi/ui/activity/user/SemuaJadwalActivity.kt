@@ -1,18 +1,14 @@
-package com.example.muharya_pengingatjadwalkeretaapi.ui.activity
+package com.example.muharya_pengingatjadwalkeretaapi.ui.activity.user
 
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
-import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.MenuItem
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
 import android.widget.Button
-import android.widget.PopupMenu.OnMenuItemClickListener
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -20,8 +16,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.muharya_pengingatjadwalkeretaapi.R
 import com.example.muharya_pengingatjadwalkeretaapi.adapter.TiketAdapter
 import com.example.muharya_pengingatjadwalkeretaapi.data.database.api.ApiService
-import com.example.muharya_pengingatjadwalkeretaapi.data.model.MessageNotifPostModel
-import com.example.muharya_pengingatjadwalkeretaapi.data.model.PesananModel
 import com.example.muharya_pengingatjadwalkeretaapi.data.model.TiketModel
 import com.example.muharya_pengingatjadwalkeretaapi.databinding.ActivitySemuaJadwalBinding
 import com.example.muharya_pengingatjadwalkeretaapi.utils.KontrolNavigationDrawer
@@ -31,11 +25,6 @@ import com.example.muharya_pengingatjadwalkeretaapi.utils.TanggalDanWaktu
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.ZoneId
-import java.util.Date
-import java.util.TimeZone
 
 class SemuaJadwalActivity : Activity() {
     lateinit var binding: ActivitySemuaJadwalBinding
@@ -296,6 +285,8 @@ class SemuaJadwalActivity : Activity() {
         val hari = tiketModel.hari
         val waktu = tiketModel.waktu
         val harga = tiketModel.harga
+        val koordinat_stasiun_awal = tiketModel.koordinat_stasiun_awal
+        val koordinat_stasiun_tujuan = tiketModel.koordinat_stasiun_tujuan
 
         val etNama = viewAlertDialog.findViewById<TextView>(R.id.etNama)
         val etNomorHp = viewAlertDialog.findViewById<TextView>(R.id.etNomorHp)
@@ -324,7 +315,8 @@ class SemuaJadwalActivity : Activity() {
             dialogInputan.dismiss()
             postPesanTiket(sharedPref.getId(), tiketModel.id_tiket, sharedPref.getNama(), sharedPref.getAlamat(),
                             sharedPref.getNomorHp(), dariKotaKab, dariStasiun, sampaiKotaKab,
-                            sampaiStasiun, tanggal, waktu, etJumlahTiket.text.toString(), harga)
+                            sampaiStasiun, tanggal, waktu, etJumlahTiket.text.toString(), harga,
+                            koordinat_stasiun_awal, koordinat_stasiun_tujuan)
         }
         btnBatal.setOnClickListener {
             dialogInputan.dismiss()
@@ -333,11 +325,13 @@ class SemuaJadwalActivity : Activity() {
 
     fun postPesanTiket(id_user:Int, id_tiket:Int, nama: String, alamat: String, nomorHp: String,
                        dariKotaKab: String, dariStasiun: String, sampaiKotaKab: String,
-                       sampaiStasiun: String, tanggal: String, waktu:String, jumlahTiket: String, harga: String){
+                       sampaiStasiun: String, tanggal: String, waktu:String, jumlahTiket: String, harga: String,
+                       koordinat_stasiun_awal:String, koordinat_stasiun_tujuan:String){
 
         ApiService.getRetrofit().postPesanTiket("pesan_tiket", id_user, id_tiket,
                                                 dariKotaKab, dariStasiun, sampaiKotaKab, sampaiStasiun,
-                                                tanggal, waktu, jumlahTiket, harga)
+                                                tanggal, waktu, jumlahTiket, harga,
+                                                koordinat_stasiun_awal, koordinat_stasiun_tujuan )
             .enqueue(object:Callback<TiketModel>{
                 override fun onResponse(
                     call: Call<TiketModel>,

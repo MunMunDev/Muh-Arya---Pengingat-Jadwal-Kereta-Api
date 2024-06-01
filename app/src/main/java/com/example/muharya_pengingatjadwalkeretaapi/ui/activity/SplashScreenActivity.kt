@@ -9,6 +9,7 @@ import android.os.Looper
 import android.view.WindowManager
 import com.example.muharya_pengingatjadwalkeretaapi.R
 import com.example.muharya_pengingatjadwalkeretaapi.ui.activity.admin.AdminHomeActivity
+import com.example.muharya_pengingatjadwalkeretaapi.ui.activity.user.MainActivity
 import com.example.muharya_pengingatjadwalkeretaapi.utils.SharedPreferencesLogin
 
 @SuppressLint("CustomSplashScreen")

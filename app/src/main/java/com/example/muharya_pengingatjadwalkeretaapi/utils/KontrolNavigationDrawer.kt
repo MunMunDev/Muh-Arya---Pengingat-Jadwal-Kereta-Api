@@ -10,15 +10,20 @@ import android.widget.ImageView
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.example.muharya_pengingatjadwalkeretaapi.R
-import com.example.muharya_pengingatjadwalkeretaapi.ui.activity.YourAgendaActivity
+import com.example.muharya_pengingatjadwalkeretaapi.ui.activity.user.YourAgendaActivity
 import com.example.muharya_pengingatjadwalkeretaapi.ui.activity.*
 import com.example.muharya_pengingatjadwalkeretaapi.ui.activity.admin.AdminHomeActivity
 import com.example.muharya_pengingatjadwalkeretaapi.ui.activity.admin.AdminKotaKabTerdaftar
 import com.example.muharya_pengingatjadwalkeretaapi.ui.activity.admin.AdminPesananActivity
+import com.example.muharya_pengingatjadwalkeretaapi.ui.activity.admin.AdminPostinganActivity
 import com.example.muharya_pengingatjadwalkeretaapi.ui.activity.admin.AdminRuteActivity
 import com.example.muharya_pengingatjadwalkeretaapi.ui.activity.admin.AdminSemuaAkunActivity
 import com.example.muharya_pengingatjadwalkeretaapi.ui.activity.admin.AdminStasiunActivity
 import com.example.muharya_pengingatjadwalkeretaapi.ui.activity.admin.AdminTiketActivity
+import com.example.muharya_pengingatjadwalkeretaapi.ui.activity.user.AkunActivity
+import com.example.muharya_pengingatjadwalkeretaapi.ui.activity.user.MainActivity
+import com.example.muharya_pengingatjadwalkeretaapi.ui.activity.user.PostinganActivity
+import com.example.muharya_pengingatjadwalkeretaapi.ui.activity.user.SemuaJadwalActivity
 
 class KontrolNavigationDrawer(var context: Context) {
     var sharedPreferences = SharedPreferencesLogin(context)
@@ -38,6 +43,11 @@ class KontrolNavigationDrawer(var context: Context) {
                 when(it.itemId){
                     R.id.userNavDrawerHome ->{
                         val intent = Intent(context, MainActivity::class.java)
+                        context.startActivity(intent)
+                        activity.finish()
+                    }
+                    R.id.userNavDrawerPostingan ->{
+                        val intent = Intent(context, PostinganActivity::class.java)
                         context.startActivity(intent)
                         activity.finish()
                     }
@@ -65,6 +75,11 @@ class KontrolNavigationDrawer(var context: Context) {
                 when(it.itemId){
                     R.id.adminNavDrawerHome ->{
                         val intent = Intent(context, AdminHomeActivity::class.java)
+                        context.startActivity(intent)
+                        activity.finish()
+                    }
+                    R.id.adminNavDrawerPostingan ->{
+                        val intent = Intent(context, AdminPostinganActivity::class.java)
                         context.startActivity(intent)
                         activity.finish()
                     }

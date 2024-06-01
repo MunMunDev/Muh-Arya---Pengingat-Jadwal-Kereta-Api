@@ -1,12 +1,13 @@
-package com.example.muharya_pengingatjadwalkeretaapi.ui.activity
+package com.example.muharya_pengingatjadwalkeretaapi.ui.activity.user
 
 import android.app.Activity
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
+import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.muharya_pengingatjadwalkeretaapi.R
@@ -68,8 +69,23 @@ class YourAgendaActivity : Activity() {
                             }
                         }
                         adapter = PesananAdapter(arrayPesanan, object:PesananAdapter.onClickMenuListener{
-                            override fun onClick(array: PesananModel) {
+                            override fun onClick(listPesanan: PesananModel, it:View) {
+                                val popupMenu = PopupMenu(this@YourAgendaActivity, it)
+                                popupMenu.inflate(R.menu.popup_menu_location)
+                                popupMenu.setOnMenuItemClickListener(object :
+                                    PopupMenu.OnMenuItemClickListener {
+                                    override fun onMenuItemClick(menuItem: MenuItem?): Boolean {
+                                        when (menuItem!!.itemId) {
+                                            R.id.showLocation -> {
+//                                                setToLocation(listPesanan)
+                                                return true
+                                            }
+                                        }
+                                        return true
+                                    }
 
+                                })
+                                popupMenu.show()
                             }
 
                         })
@@ -88,6 +104,19 @@ class YourAgendaActivity : Activity() {
 
             })
     }
+
+//    private fun setToLocation(arrayPesanan: PesananModel) {
+//        if (arrayPesanan.koordinat_stasiun_awal.isNotEmpty()) {
+//            LaunchMap.launchMap(this@YourAgendaActivity, arrayPesanan.koordinat_stasiun_awal)
+//            Log.d("YourAgendaActivityTAG", "setToLocation: ${arrayPesanan.koordinat_stasiun_awal}")
+//        } else {
+//            Toast.makeText(
+//                this@YourAgendaActivity,
+//                "Alamat maps belum ada",
+//                Toast.LENGTH_SHORT
+//            ).show()
+//        }
+//    }
 
     override fun onBackPressed() {
         super.onBackPressed()

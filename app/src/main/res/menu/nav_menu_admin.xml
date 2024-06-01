@@ -8,6 +8,10 @@
             android:title="Home"
             android:icon="@drawable/baseline_home_24"/>
         <item
+            android:id="@+id/adminNavDrawerPostingan"
+            android:title="Postingan Anda"
+            android:icon="@drawable/icon_postingan3"/>
+        <item
             android:id="@+id/adminNavDrawerKotaKabTerdaftar"
             android:title="Kota/Kab Terdaftar"
             android:icon="@drawable/icon_kota_kab"/>

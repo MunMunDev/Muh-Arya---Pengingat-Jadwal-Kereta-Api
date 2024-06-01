@@ -10,5 +10,8 @@ class StasiunModel (
     val nama_stasiun: String,
 
     @SerializedName("kota_kab")
-    val kota_kab: String
+    val kota_kab: String,
+
+//    @SerializedName("koordinat_stasiun")
+//    val koordinat_stasiun: String
 )

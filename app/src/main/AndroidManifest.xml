@@ -7,6 +7,13 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE." />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission
+        android:name="android.permission.ACCESS_FINE_LOCATION"
+        tools:ignore="CoarseFineLocation" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -20,6 +27,30 @@
         android:theme="@style/Theme.MuhAryaPengingatJadwalKeretaApi"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:name=".ui.activity.admin.AdminPostinganActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.activity.user.PostinganActivity"
+            android:exported="false" />
+        <!--
+             TODO: Before you run your application, you need a Google Maps API key.
+
+             To get one, follow the directions here:
+
+                https://developers.google.com/maps/documentation/android-sdk/get-api-key
+
+             Once you have your API key (it starts with "AIza"), define a new property in your
+             project's local.properties file (e.g. MAPS_API_KEY=Aiza...), and replace the
+             "YOUR_API_KEY" string in this file with "${MAPS_API_KEY}".
+        -->
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/map_api_key" />
+
+        <activity
+            android:name=".ui.activity.admin.AdminKoordinatMapsActivity"
+            android:exported="false" />
         <activity
             android:name=".ui.activity.admin.AdminDetailsTiketActivity"
             android:exported="false" />
@@ -48,16 +79,16 @@
             android:name=".ui.activity.ReceiverAlarmActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.NotifikasiActivity"
+            android:name=".ui.activity.user.NotifikasiActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.AkunActivity"
+            android:name=".ui.activity.user.AkunActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.SemuaJadwalActivity"
+            android:name=".ui.activity.user.SemuaJadwalActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.activity.YourAgendaActivity"
+            android:name=".ui.activity.user.YourAgendaActivity"
             android:exported="false" />
         <activity
             android:name=".ui.activity.RegistrasiActivity"
@@ -75,7 +106,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.activity.MainActivity"
+            android:name=".ui.activity.user.MainActivity"
             android:exported="false" />
 
         <receiver

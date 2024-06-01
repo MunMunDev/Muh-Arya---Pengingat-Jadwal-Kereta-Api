@@ -31,5 +31,11 @@ class TiketModel(
     val jumlah_tiket: String,
 
     @SerializedName("harga")
-    val harga: String
+    val harga: String,
+
+    @SerializedName("koordinat_stasiun_awal")
+    val koordinat_stasiun_awal: String,
+
+    @SerializedName("koordinat_stasiun_tujuan")
+    val koordinat_stasiun_tujuan: String
 )

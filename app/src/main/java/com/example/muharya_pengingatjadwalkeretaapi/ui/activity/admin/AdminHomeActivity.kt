@@ -31,6 +31,10 @@ class AdminHomeActivity: Activity() {
             kontrolNavigationDrawer.cekSebagai(navView)
             kontrolNavigationDrawer.onClickItemNavigationDrawer(navView, drawerLayoutMain, ivDrawerView, this@AdminHomeActivity)
 
+            btnPostingan.setOnClickListener {
+                startActivity(Intent(this@AdminHomeActivity, AdminPostinganActivity::class.java))
+                finish()
+            }
             btnKotaKab.setOnClickListener {
                 startActivity(Intent(this@AdminHomeActivity, AdminKotaKabTerdaftar::class.java))
                 finish()

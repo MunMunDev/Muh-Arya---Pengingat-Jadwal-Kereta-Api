@@ -1,8 +1,9 @@
-package com.example.muharya_pengingatjadwalkeretaapi.ui.activity
+package com.example.muharya_pengingatjadwalkeretaapi.ui.activity.user
 
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlarmManager
+import android.app.AlertDialog
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -11,27 +12,44 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.os.SystemClock
 import android.transition.AutoTransition
 import android.transition.TransitionManager
+import android.util.DisplayMetrics
 import android.util.Log
+import android.view.MenuItem
+import android.view.MotionEvent
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
+import android.view.inputmethod.InputMethodManager
+import android.widget.EditText
 import android.widget.ImageView
+import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.muharya_pengingatjadwalkeretaapi.R
 import com.example.muharya_pengingatjadwalkeretaapi.adapter.PesananAdapter
+import com.example.muharya_pengingatjadwalkeretaapi.adapter.PostinganAdapter
+import com.example.muharya_pengingatjadwalkeretaapi.adapter.PostinganKomentarAdapter
 import com.example.muharya_pengingatjadwalkeretaapi.data.database.api.ApiService
 import com.example.muharya_pengingatjadwalkeretaapi.data.model.PesananModel
+import com.example.muharya_pengingatjadwalkeretaapi.data.model.PostinganKomentarModel
+import com.example.muharya_pengingatjadwalkeretaapi.data.model.PostinganModel
+import com.example.muharya_pengingatjadwalkeretaapi.data.model.ResponseModel
 import com.example.muharya_pengingatjadwalkeretaapi.databinding.ActivityMainBinding
+import com.example.muharya_pengingatjadwalkeretaapi.databinding.AlertDialogKonfirmasiBinding
+import com.example.muharya_pengingatjadwalkeretaapi.databinding.BottomSheetDialogKomentarBinding
 import com.example.muharya_pengingatjadwalkeretaapi.utils.AlarmNotificationReceiver
 import com.example.muharya_pengingatjadwalkeretaapi.utils.KontrolNavigationDrawer
 import com.example.muharya_pengingatjadwalkeretaapi.utils.LoadingAlertDialog
 import com.example.muharya_pengingatjadwalkeretaapi.utils.SharedPreferencesLogin
 import com.example.muharya_pengingatjadwalkeretaapi.utils.TanggalDanWaktu
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import retrofit2.Call
+import retrofit2.Callback
 import retrofit2.Response
 import java.util.Calendar
 
@@ -47,6 +65,11 @@ class MainActivity : Activity() {
     lateinit var alarmManager: AlarmManager
     lateinit var pendingIntent: PendingIntent
     lateinit var tanggalDanWaktu: TanggalDanWaktu
+    lateinit var adapterPostingan: PostinganAdapter
+
+    // RecyclerView Bottom Sheet Dialog
+    private lateinit var rvKomentar: RecyclerView
+
     @SuppressLint("SetTextI18n")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,6 +89,7 @@ class MainActivity : Activity() {
 
         loading.alertDialogLoading()
         getDataPesanan(sharedPref.getId())
+        getPostingan()
 //        cancelAlarm()
 //        createNotification()
 
@@ -104,6 +128,11 @@ class MainActivity : Activity() {
                     llTiketHariIni.visibility = View.GONE
                     arrowJadwalAnda.setBackgroundResource(R.drawable.icon_arrow_down)
                 }
+            }
+
+            btnLihatPostingan.setOnClickListener {
+                startActivity(Intent(this@MainActivity, PostinganActivity::class.java))
+                finish()
             }
 
 //            setAlarm.setOnClickListener {
@@ -338,9 +367,24 @@ class MainActivity : Activity() {
 //                            arrayPesanan.add(valueArray[1])
 //                        }
 
-                        adapter = PesananAdapter(arrayPesanan, object: PesananAdapter.onClickMenuListener{
-                            override fun onClick(array: PesananModel) {
+                        adapter = PesananAdapter(arrayPesanan, object:PesananAdapter.onClickMenuListener{
+                            override fun onClick(listPesanan: PesananModel, it:View) {
+                                val popupMenu = PopupMenu(this@MainActivity, it)
+                                popupMenu.inflate(R.menu.popup_menu_location)
+                                popupMenu.setOnMenuItemClickListener(object :
+                                    PopupMenu.OnMenuItemClickListener {
+                                    override fun onMenuItemClick(menuItem: MenuItem?): Boolean {
+                                        when (menuItem!!.itemId) {
+                                            R.id.showLocation -> {
+//                                                setToLocation(listPesanan)
+                                                return true
+                                            }
+                                        }
+                                        return true
+                                    }
 
+                                })
+                                popupMenu.show()
                             }
 
                         })
@@ -364,14 +408,290 @@ class MainActivity : Activity() {
             })
     }
 
+//    private fun setToLocation(arrayPesanan: PesananModel) {
+//        Log.d("YourAgendaActivityTAG", "setToLocation: ${arrayPesanan.koordinat_stasiun_awal}")
+//        if (arrayPesanan.koordinat_stasiun_awal.isNotEmpty()) {
+//            Log.d("YourAgendaActivityTAG", "setToLocation 2: ${arrayPesanan.koordinat_stasiun_awal}")
+//            LaunchMap.launchMap(this@MainActivity, arrayPesanan.koordinat_stasiun_awal)
+//        } else {
+//            Toast.makeText(
+//                this@MainActivity,
+//                "Alamat maps belum ada",
+//                Toast.LENGTH_SHORT
+//            ).show()
+//        }
+//    }
+
+    private fun getPostingan(){
+        ApiService.getRetrofit().getPostingan("")
+            .enqueue(object : Callback<ArrayList<PostinganModel>>{
+                override fun onResponse(
+                    call: Call<ArrayList<PostinganModel>>,
+                    response: Response<ArrayList<PostinganModel>>
+                ) {
+                    if(response.body()!!.isNotEmpty()){
+                        val arrayListPostingan = response.body()!!
+
+                        adapterPostingan = PostinganAdapter(arrayListPostingan, object : PostinganAdapter.onClickPostingan{
+
+//                            override fun onClickLike(
+//                                id_user: String,
+//                                id_postingan: String,
+//                                sudahLike: Boolean,
+//                                holder: PostinganAdapter.ViewHolder,
+//                                it: View
+//                            ) {
+//                                postPostinganLike(
+//                                    id_postingan,
+//                                    sharedPref.getId().toString(),
+//                                    sudahLike,
+//                                    holder.binding.ivLike
+//                                )
+//                            }
+
+                            override fun onClickKomentar(
+                                id_user: String,
+                                id_postingan: String,
+                                position:Int,
+                                it: View
+                            ) {
+                                setShowBottomSheetDialog(id_postingan)
+//                                showBottomSheetDialog(id_postingan)
+                            }
+
+                        }, sharedPref.getId().toString(), 0)
+
+                        binding.apply {
+                            rvPostingan.layoutManager = LinearLayoutManager(
+                                this@MainActivity, LinearLayoutManager.VERTICAL, false
+                            )
+                            rvPostingan.adapter = adapterPostingan
+                        }
+
+
+                    } else{
+                        Toast.makeText(this@MainActivity, "Tidak Ada Postingan", Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<ArrayList<PostinganModel>>, t: Throwable) {
+                    Toast.makeText(this@MainActivity, "Gagal: ${t.message}", Toast.LENGTH_SHORT).show()
+                }
+
+            })
+    }
+
+    private fun postPostinganLike(idPostingan: String, idUserLike: String, sudahLike: Boolean, ivLike: ImageView){
+        loading.alertDialogLoading()
+        ApiService.getRetrofit().postPostinganLike("", idPostingan, idUserLike)
+            .enqueue(object : Callback<ResponseModel>{
+                @SuppressLint("NotifyDataSetChanged")
+                override fun onResponse(
+                    call: Call<ResponseModel>,
+                    response: Response<ResponseModel>
+                ) {
+                    loading.alertDialogCancel()
+                    if(sudahLike){
+                        ivLike.setImageResource(R.drawable.icon_hati)
+                        adapterPostingan.notifyDataSetChanged()
+                    } else{
+                        ivLike.setImageResource(R.drawable.icon_hati_aktif)
+                        adapterPostingan.notifyDataSetChanged()
+                    }
+                }
+
+                override fun onFailure(call: Call<ResponseModel>, t: Throwable) {
+                    loading.alertDialogCancel()
+                    Toast.makeText(this@MainActivity, "Gagal Like: ${t.message}", Toast.LENGTH_SHORT).show()
+                }
+
+            })
+    }
+
+
+    private fun setShowBottomSheetDialog(idPostingan: String){
+
+        val view = BottomSheetDialogKomentarBinding.inflate(layoutInflater)
+        val dialog = BottomSheetDialog(this@MainActivity)
+
+        dialog.setContentView(view.root)
+        dialog.setCancelable(true)
+        dialog.show()
+
+        rvKomentar = view.rvKomentar
+
+        view.apply {
+            // Full Height
+            tvTtile.setOnClickListener {
+                val bottomSheetDialog = dialog
+                val parentLayout =
+                    bottomSheetDialog.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)
+                parentLayout?.let { it ->
+                    val behaviour = BottomSheetBehavior.from(it)
+
+                    val layoutParams = it.layoutParams
+                    layoutParams.height = WindowManager.LayoutParams.MATCH_PARENT
+                    it.layoutParams = layoutParams
+
+                    behaviour.state = BottomSheetBehavior.STATE_EXPANDED
+                }
+
+                etTulisKomentar.apply {
+                    requestFocus()
+                    dispatchTouchEvent(MotionEvent.obtain(SystemClock.uptimeMillis(),SystemClock.uptimeMillis(),MotionEvent.ACTION_UP,0f,0f,0))
+                }
+            }
+            //Close Komentar
+            btnBack.setOnClickListener {
+                dialog.dismiss()
+            }
+
+            getPostinganKomentar(idPostingan)
+
+            btnSendKomentar.setOnClickListener {
+                var cek = true
+
+                if(etTulisKomentar.text.toString().trim().isEmpty()){
+                    cek = false
+                }
+
+                if(cek){
+                    val komentar = etTulisKomentar.text.toString().trim()
+                    postPostinganKomentar(
+                        idPostingan,
+                        "0",    // Jika 0 maka komentar baru
+                        sharedPref.getId().toString(),
+                        komentar,
+                        etTulisKomentar,
+                        view.root
+                    )
+                }
+            }
+        }
+    }
+
+    private fun getPostinganKomentar(idPostingan: String){
+        ApiService.getRetrofit().getPostinganKomentar("", idPostingan)
+            .enqueue(object : Callback<ArrayList<PostinganKomentarModel>>{
+                override fun onResponse(
+                    call: Call<ArrayList<PostinganKomentarModel>>,
+                    response: Response<ArrayList<PostinganKomentarModel>>
+                ) {
+                    var arrayListPostingan: ArrayList<PostinganKomentarModel> = arrayListOf()
+                    if(response.body()!!.isNotEmpty()){
+                        arrayListPostingan = response.body()!!
+
+                        val adapter = PostinganKomentarAdapter(
+                            arrayListPostingan, sharedPref.getId().toString(), object : PostinganKomentarAdapter.onClickPostinganKomentar{
+                                override fun onClickBalasKomentar(
+                                    id_user: String,
+                                    id_postingan_komentar: String,
+                                    it: View
+                                ) {
+
+                                }
+
+                                override fun onClickHapusKomentar(
+                                    id_user: String,
+                                    id_postingan_komentar: String,
+                                    it: View
+                                ) {
+                                    dialogHapusKomentar(id_postingan_komentar, idPostingan)
+                                }
+                            })
+                        rvKomentar.layoutManager = LinearLayoutManager(this@MainActivity, LinearLayoutManager.VERTICAL, false)
+                        rvKomentar.adapter = adapter
+
+                    } else{
+                        Toast.makeText(this@MainActivity, "Tidak Ada Komentar", Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<ArrayList<PostinganKomentarModel>>, t: Throwable) {
+                    Toast.makeText(this@MainActivity, "Gagal: ${t.message}", Toast.LENGTH_SHORT).show()
+                }
+
+            })
+    }
+
+    private fun postPostinganKomentar(
+        idPostingan: String, idPostinganKomentarUser: String, idUser: String, komentar: String, etTulisKomentar: EditText, view: View
+    ) {
+        loading.alertDialogLoading()
+        ApiService.getRetrofit().postPostinganKomentarTambah("", idPostingan, idPostinganKomentarUser, idUser, komentar)
+            .enqueue(object : Callback<ResponseModel>{
+                override fun onResponse(
+                    call: Call<ResponseModel>,
+                    response: Response<ResponseModel>
+                ) {
+                    loading.alertDialogCancel()
+                    getPostinganKomentar(idPostingan)
+                    etTulisKomentar.setText("")
+                    hideKeyboard(view)
+                }
+
+                override fun onFailure(call: Call<ResponseModel>, t: Throwable) {
+                    loading.alertDialogCancel()
+                    Toast.makeText(this@MainActivity, "Gagal : ${t.message}", Toast.LENGTH_SHORT).show()
+                }
+
+            })
+    }
+
+    private fun Context.hideKeyboard(view: View) {
+        val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
+        inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
+    }
+
+    private fun dialogHapusKomentar(idPostinganKomentar: String, idPostingan: String) {
+        val view = AlertDialogKonfirmasiBinding.inflate(layoutInflater)
+        val alertDialog = AlertDialog.Builder(this@MainActivity)
+        alertDialog.setView(view.root)
+        val dialogInputan = alertDialog.create()
+        dialogInputan.show()
+
+        view.apply {
+            btnHapus.setOnClickListener {
+                postHapusKomentar(idPostinganKomentar, idPostingan)
+                dialogInputan.dismiss()
+            }
+            btnBatal.setOnClickListener {
+                dialogInputan.dismiss()
+            }
+        }
+    }
+
+    private fun postHapusKomentar(id_postingan_komentar: String, idPostingan: String){
+        loading.alertDialogLoading()
+        ApiService.getRetrofit().postPostinganKomentarHapus("", id_postingan_komentar)
+            .enqueue(object: Callback<ResponseModel>{
+                override fun onResponse(
+                    call: Call<ResponseModel>,
+                    response: Response<ResponseModel>
+                ) {
+                    loading.alertDialogCancel()
+                    getPostinganKomentar(idPostingan)
+                }
+
+                override fun onFailure(call: Call<ResponseModel>, t: Throwable) {
+                    Toast.makeText(this@MainActivity, "Gagal : ${t.message}", Toast.LENGTH_SHORT).show()
+                    loading.alertDialogCancel()
+                }
+
+            })
+    }
+
 
     @SuppressLint("PrivateResource")
-    fun showBottomSheetDialog(){
+    fun showBottomSheetDialog(idPostingan: String){
         val dialogView = layoutInflater.inflate(R.layout.fragment_bottom_sheet, null)
         var btnBack : ImageView = dialogView.findViewById(R.id.btnBack)
         dialog = BottomSheetDialog(this@MainActivity, R.style.BottomShowDialogTheme)
         dialog.setContentView(dialogView)
         dialog.show()
+
+        getPostinganKomentar(idPostingan)
+        rvKomentar = dialogView.findViewById(R.id.rvAlarm)
 
         btnBack.setOnClickListener {
             Toast.makeText(this@MainActivity, "Button back", Toast.LENGTH_SHORT).show()

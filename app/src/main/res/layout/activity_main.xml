@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.activity.MainActivity"
+    tools:context=".ui.activity.user.MainActivity"
     android:id="@+id/drawerLayoutMain"
     android:background="@color/white">
 
@@ -177,82 +177,118 @@
 <!--                android:layout_marginTop="20dp"-->
 <!--                android:text="Cencel Alarm"/>-->
             <LinearLayout
-                android:id="@+id/lyJadwalHariIni"
-                android:layout_width="match_parent"
+                    android:id="@+id/lyJadwalHariIni"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@+id/clMenu"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="20dp"
+                    android:paddingBottom="20dp"
+                    android:orientation="vertical"
+                    android:visibility="visible">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/clJadwalAnda"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="14dp"
+                    android:paddingTop="14dp"
+                    android:paddingBottom="10dp"
+                    android:background="@drawable/bg_card">
+
+                    <TextView
+                        android:id="@+id/titleJadwalAnda"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/arrowJadwalAnda"
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:layout_marginEnd="8dp"
+                        android:text="Jadwal Hari Ini"
+                        android:textColor="@color/black"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
+
+                    <ImageView
+                        android:id="@+id/arrowJadwalAnda"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/icon_arrow_up"
+                        app:layout_constraintBottom_toBottomOf="@+id/titleJadwalAnda"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/titleJadwalAnda" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <LinearLayout
+                    android:id="@+id/llTiketHariIni"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible"
+                    android:orientation="vertical">
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/rvPesanan"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="-5dp"
+                        android:background="@drawable/bg_teks_penjelasan"
+                        android:paddingBottom="8dp"
+                        tools:listitem="@layout/list_pesanan"
+                        tools:itemCount="4" />
+                    <TextView
+                        android:id="@+id/tvNoPesanan"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="-5dp"
+                        android:background="@drawable/bg_teks_penjelasan"
+                        android:paddingTop="25dp"
+                        android:paddingBottom="25dp"
+                        android:text="Tidak ada jadwal Hari Ini. \nSilahkan Melakukan Pesanan Terlebih Dahulu."
+                        android:textSize="14sp"
+                        android:textColor="@color/black"
+                        android:textStyle="normal"
+                        android:gravity="center"
+                        android:visibility="gone"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvPostingan"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/clMenu"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/lyJadwalHariIni"
+                app:layout_constraintStart_toStartOf="parent"
                 android:layout_marginTop="16dp"
                 android:layout_marginStart="20dp"
+                android:text="Postingan"
+                android:textSize="18sp"
+                android:textColor="@color/black"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/btnLihatPostingan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/lyJadwalHariIni"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="16dp"
                 android:layout_marginEnd="20dp"
-                android:paddingBottom="20dp"
-                android:orientation="vertical"
-                android:visibility="visible">
+                android:text="Semua >"
+                android:textSize="18sp"
+                android:textColor="@color/biru"
+                android:textStyle="bold"/>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/clJadwalAnda"
-                android:layout_width="match_parent"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvPostingan"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:paddingStart="14dp"
-                android:paddingTop="14dp"
-                android:paddingBottom="10dp"
-                android:background="@drawable/bg_card">
-
-                <TextView
-                    android:id="@+id/titleJadwalAnda"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toStartOf="@id/arrowJadwalAnda"
-                    app:layout_constraintTop_toTopOf="parent"
-                    android:layout_marginEnd="8dp"
-                    android:text="Jadwal Hari Ini"
-                    android:textColor="@color/black"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-                <ImageView
-                    android:id="@+id/arrowJadwalAnda"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:background="@drawable/icon_arrow_up"
-                    app:layout_constraintBottom_toBottomOf="@+id/titleJadwalAnda"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/titleJadwalAnda" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <LinearLayout
-                android:id="@+id/llTiketHariIni"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="visible"
-                android:orientation="vertical">
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/rvPesanan"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="-5dp"
-                    android:background="@drawable/bg_teks_penjelasan"
-                    android:paddingBottom="8dp"
-                    tools:listitem="@layout/list_pesanan"
-                    tools:itemCount="4" />
-                <TextView
-                    android:id="@+id/tvNoPesanan"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="-5dp"
-                    android:background="@drawable/bg_teks_penjelasan"
-                    android:paddingTop="25dp"
-                    android:paddingBottom="25dp"
-                    android:text="Tidak ada jadwal Hari Ini. \nSilahkan Melakukan Pesanan Terlebih Dahulu."
-                    android:textSize="14sp"
-                    android:textColor="@color/black"
-                    android:textStyle="normal"
-                    android:gravity="center"
-                    android:visibility="gone"/>
-            </LinearLayout>
-        </LinearLayout>
-
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvPostingan"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                tools:listitem="@layout/list_postingan"
+                android:nestedScrollingEnabled="false"/>
 
 <!--            <androidx.recyclerview.widget.RecyclerView-->
 <!--                android:layout_width="match_parent"-->

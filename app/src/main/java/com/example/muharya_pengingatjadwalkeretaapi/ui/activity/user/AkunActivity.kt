@@ -1,4 +1,4 @@
-package com.example.muharya_pengingatjadwalkeretaapi.ui.activity
+package com.example.muharya_pengingatjadwalkeretaapi.ui.activity.user
 
 import android.app.Activity
 import android.content.Intent

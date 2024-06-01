@@ -28,5 +28,11 @@ class RuteModel (
     val waktu: String,
 
     @SerializedName("waktu_sampai")
-    val waktu_sampai: String
+    val waktu_sampai: String,
+
+    @SerializedName("koordinat_stasiun_awal")
+    val koordinat_stasiun_awal: String,
+
+    @SerializedName("koordinat_stasiun_tujuan")
+    val koordinat_stasiun_tujuan: String
 )

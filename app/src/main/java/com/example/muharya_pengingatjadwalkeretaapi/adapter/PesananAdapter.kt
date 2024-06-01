@@ -12,7 +12,10 @@ import com.example.muharya_pengingatjadwalkeretaapi.data.model.PesananModel
 import com.example.muharya_pengingatjadwalkeretaapi.utils.KonversiRupiah
 import com.example.muharya_pengingatjadwalkeretaapi.utils.TanggalDanWaktu
 
-class PesananAdapter(val arrayPesanan: ArrayList<PesananModel>, val listener:onClickMenuListener): RecyclerView.Adapter<PesananAdapter.PesananViewHolder>() {
+class PesananAdapter(
+    val arrayPesanan: ArrayList<PesananModel>,
+    val listener:onClickMenuListener
+): RecyclerView.Adapter<PesananAdapter.PesananViewHolder>() {
 
     class PesananViewHolder(v: View) : RecyclerView.ViewHolder(v) {
         val clBody : ConstraintLayout
@@ -67,7 +70,7 @@ class PesananAdapter(val arrayPesanan: ArrayList<PesananModel>, val listener:onC
         }
 
         holder.clBody.setOnClickListener {
-            listener.onClick(valueArray)
+            listener.onClick(valueArray, it)
         }
 
 //        if(valueArray.id_pesanan!="-"){
@@ -89,6 +92,6 @@ class PesananAdapter(val arrayPesanan: ArrayList<PesananModel>, val listener:onC
     }
 
     interface onClickMenuListener{
-        fun onClick(array: PesananModel)
+        fun onClick(listPesanan: PesananModel, it:View)
     }
 }

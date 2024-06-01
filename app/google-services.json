@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "196536838660",
+    "project_id": "pengingat-jadwal-kereta-dad72",
+    "storage_bucket": "pengingat-jadwal-kereta-dad72.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:196536838660:android:9397cd94b719d3a6b66351",
+        "android_client_info": {
+          "package_name": "com.example.muharya_pengingatjadwalkeretaapi"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCU3sO4QxB5qe4atiGbkIOIkfTf_cKQ_5I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

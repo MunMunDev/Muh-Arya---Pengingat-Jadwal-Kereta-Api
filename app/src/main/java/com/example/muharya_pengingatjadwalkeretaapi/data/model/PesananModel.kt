@@ -55,5 +55,11 @@ class PesananModel(
     val status_alarm: String,
 
     @SerializedName("jumlah_notif")
-    val jumlah_notif: String
+    val jumlah_notif: String,
+
+    @SerializedName("koordinat_stasiun_awal")
+    val koordinat_stasiun_awal: String,
+
+    @SerializedName("koordinat_stasiun_tujuan")
+    val koordinat_stasiun_tujuan: String
 )

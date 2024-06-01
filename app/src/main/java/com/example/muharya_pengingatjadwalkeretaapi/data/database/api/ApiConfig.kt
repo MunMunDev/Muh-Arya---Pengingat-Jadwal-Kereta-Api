@@ -3,15 +3,22 @@ package com.example.muharya_pengingatjadwalkeretaapi.data.database.api
 import com.example.muharya_pengingatjadwalkeretaapi.data.model.KotaKabModel
 import com.example.muharya_pengingatjadwalkeretaapi.data.model.MessageNotifPostModel
 import com.example.muharya_pengingatjadwalkeretaapi.data.model.PesananModel
+import com.example.muharya_pengingatjadwalkeretaapi.data.model.PostinganKomentarModel
+import com.example.muharya_pengingatjadwalkeretaapi.data.model.PostinganModel
+import com.example.muharya_pengingatjadwalkeretaapi.data.model.ResponseModel
 import com.example.muharya_pengingatjadwalkeretaapi.data.model.RuteModel
 import com.example.muharya_pengingatjadwalkeretaapi.data.model.StasiunModel
 import com.example.muharya_pengingatjadwalkeretaapi.data.model.TiketModel
 import com.example.muharya_pengingatjadwalkeretaapi.data.model.UserModel
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
+import retrofit2.http.Multipart
 import retrofit2.http.POST
+import retrofit2.http.Part
 import retrofit2.http.Query
 
 interface ApiConfig {
@@ -34,6 +41,16 @@ interface ApiConfig {
     @GET("api/get.php")
     fun getTiket(@Query("get_tiket") get_tiket: String
     ): Call<ArrayList<TiketModel>>
+
+    //Postingan
+    @GET("api/get.php")
+    fun getPostingan(@Query("get_postingan") get_postingan: String
+    ): Call<ArrayList<PostinganModel>>
+
+    @GET("api/get.php")
+    fun getPostinganKomentar(@Query("get_postingan_komentar") get_postingan_komentar: String,
+                             @Query("id_postingan") id_postingan: String
+    ): Call<ArrayList<PostinganKomentarModel>>
 
 
     // Admin
@@ -117,9 +134,72 @@ interface ApiConfig {
                        @Field("tanggal") tanggal: String,
                        @Field("waktu") waktu:String,
                        @Field("jumlah_tiket") jumlah_tiket: String,
-                       @Field("harga") harga: String
+                       @Field("harga") harga: String,
+                       @Field("koordinat_stasiun_awal") koordinat_stasiun_awal: String,
+                       @Field("koordinat_stasiun_tujuan") koordinat_stasiun_tujuan: String
     ):Call<TiketModel>
 
+    @FormUrlEncoded
+    @POST("api/post.php")
+    fun postPostinganLike( @Field("post_like_postingan") post_like_postingan: String,
+                           @Field("id_postingan") id_postingan: String,
+                           @Field("id_user_like") id_user_like: String
+    ):Call<ResponseModel>
+
+    @FormUrlEncoded
+    @POST("api/post.php")
+    fun postPostinganKomentarTambah( @Field("post_tambah_komentar") post_tambah_komentar: String,
+                                     @Field("id_postingan") id_postingan: String,
+                                     @Field("id_postingan_komentar_user") id_postingan_komentar_user: String,
+                                     @Field("id_user_komentar") id_user_komentar: String,
+                                     @Field("komentar") komentar: String
+    ):Call<ResponseModel>
+
+    @FormUrlEncoded
+    @POST("api/post.php")
+    fun postPostinganKomentarHapus(@Field("post_hapus_komentar") post_hapus_komentar: String,
+                                   @Field("id_postingan_komentar") id_postingan_komentar: String
+    ):Call<ResponseModel>
+
+
+    // Admin
+
+    // Postingan
+    @Multipart
+    @POST("api/post.php")
+    fun postAdminTambahPostingan(
+        @Part("post_admin_tambah_postingan") post_admin_tambah_postingan: RequestBody,
+        @Part("caption") caption: RequestBody,
+        @Part("kata_acak") kata_acak: RequestBody,
+        @Part gambar: MultipartBody.Part,
+    ): Call<ResponseModel>
+
+    // Postingan
+    @Multipart
+    @POST("api/post.php")
+    fun postAdminUpdatePostingan(
+        @Part("post_admin_update_postingan") post_admin_update_postingan: RequestBody,
+        @Part("id_postingan") id_postingan: RequestBody,
+        @Part("caption") caption: RequestBody,
+        @Part("kata_acak") kata_acak: RequestBody,
+        @Part gambar: MultipartBody.Part,
+    ): Call<ResponseModel>
+
+    // Rute
+    @FormUrlEncoded
+    @POST("api/post.php")
+    fun postAdminUpdatePostinganNoImage(
+        @Field("post_admin_update_postingan_no_image") post_admin_update_postingan_no_image: String,
+        @Field("id_postingan") id_postingan: String,
+        @Field("caption") caption: String
+    ):Call<ResponseModel>
+
+    @FormUrlEncoded
+    @POST("api/post.php")
+    fun postAdminHapusPostingan(
+        @Field("post_admin_hapus_postingan_no_image") post_admin_hapus_postingan_no_image: String,
+        @Field("id_postingan") id_postingan: String
+    ):Call<ResponseModel>
 
     // Rute
     @FormUrlEncoded

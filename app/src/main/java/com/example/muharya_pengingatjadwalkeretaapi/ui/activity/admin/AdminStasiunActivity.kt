@@ -65,6 +65,9 @@ public class AdminStasiunActivity : Activity() {
             btnTambah.setOnClickListener {
                 dialogTambahData()
             }
+//            btnKoordinat.setOnClickListener{
+//                startActivity(Intent(this@AdminStasiunActivity, AdminKoordinatMapsActivity::class.java))
+//            }
         }
 
     }
