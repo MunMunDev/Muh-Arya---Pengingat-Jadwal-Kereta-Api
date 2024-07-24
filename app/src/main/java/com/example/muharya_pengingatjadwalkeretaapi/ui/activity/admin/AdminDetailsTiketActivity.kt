@@ -4,9 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
-import android.content.Intent
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.MenuItem
@@ -26,14 +24,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.muharya_pengingatjadwalkeretaapi.R
 import com.example.muharya_pengingatjadwalkeretaapi.adapter.AdminTiketAdapter
 import com.example.muharya_pengingatjadwalkeretaapi.data.database.api.ApiService
+import com.example.muharya_pengingatjadwalkeretaapi.data.model.RuteModel
 import com.example.muharya_pengingatjadwalkeretaapi.data.model.StasiunModel
 import com.example.muharya_pengingatjadwalkeretaapi.data.model.TiketModel
 import com.example.muharya_pengingatjadwalkeretaapi.databinding.ActivityAdminDetailsTiketBinding
-import com.example.muharya_pengingatjadwalkeretaapi.databinding.ActivityAdminTiketBinding
-import com.example.muharya_pengingatjadwalkeretaapi.utils.KontrolNavigationDrawer
 import com.example.muharya_pengingatjadwalkeretaapi.utils.LoadingAlertDialog
 import com.example.muharya_pengingatjadwalkeretaapi.utils.SharedPreferencesLogin
-import com.example.muharya_pengingatjadwalkeretaapi.utils.TanggalDanWaktu
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -51,6 +47,7 @@ class AdminDetailsTiketActivity : Activity() {
     private lateinit var sharedPref: SharedPreferencesLogin
     private lateinit var loading: LoadingAlertDialog
     private lateinit var arrayTiket : ArrayList<TiketModel>
+    private lateinit var arrayRute : ArrayList<RuteModel>
     private lateinit var adapter: AdminTiketAdapter
     lateinit var arrayKotaKab: ArrayList<String>
     lateinit var arrayStasiun: ArrayList<StasiunModel>
@@ -58,6 +55,9 @@ class AdminDetailsTiketActivity : Activity() {
     lateinit var tanggalTerakhir: String
 
     var tanggalData = tanggalSekarangZonaMakassar()
+
+    var valueDariStasiun: String = ""
+    var valueSampaiStasiun: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,7 +80,8 @@ class AdminDetailsTiketActivity : Activity() {
         loading = LoadingAlertDialog(this@AdminDetailsTiketActivity)
         loading.alertDialogLoading()
 
-        getDataKotaKab()
+        fetchDataKotaKab()
+        fetchTiket()
 
         Log.d("AdminTiketActivityTAG", "onCreate: ${ambilHari("2023-10-07")}")
 
@@ -167,7 +168,7 @@ class AdminDetailsTiketActivity : Activity() {
             })
     }
 
-    fun getDataKotaKab(){
+    fun fetchDataKotaKab(){
         ApiService.getRetrofit().getStasiunAdmin("")
             .enqueue(object : Callback<ArrayList<StasiunModel>> {
                 override fun onResponse(
@@ -193,6 +194,26 @@ class AdminDetailsTiketActivity : Activity() {
                 override fun onFailure(call: Call<ArrayList<StasiunModel>>, t: Throwable) {
 
                 }
+            })
+    }
+
+    private fun fetchTiket() {
+        ApiService.getRetrofit().getRuteAdmin("")
+            .enqueue(object: Callback<ArrayList<RuteModel>>{
+                override fun onResponse(
+                    call: Call<ArrayList<RuteModel>>,
+                    response: Response<ArrayList<RuteModel>>
+                ) {
+                    arrayRute = arrayListOf()
+                    if(response.body()!!.isNotEmpty()){
+                        arrayRute = response.body()!!
+                    }
+                }
+
+                override fun onFailure(call: Call<ArrayList<RuteModel>>, t: Throwable) {
+
+                }
+
             })
     }
 
@@ -326,7 +347,38 @@ class AdminDetailsTiketActivity : Activity() {
             override fun onNothingSelected(parent: AdapterView<*>?) {
 
             }
+        }
 
+        spDariStasiun.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                valueDariStasiun = spDariStasiun.selectedItem.toString()
+                searchHargaTiket(valueDariStasiun, valueSampaiStasiun, etHargaTiket)
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
+        }
+
+        spSampaiStasiun.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                valueSampaiStasiun = spSampaiStasiun.selectedItem.toString()
+                searchHargaTiket(valueDariStasiun, valueSampaiStasiun, etHargaTiket)
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+
+            }
         }
 
         val alertDialog = AlertDialog.Builder(this@AdminDetailsTiketActivity)
@@ -377,9 +429,7 @@ class AdminDetailsTiketActivity : Activity() {
             val waktu = tvWaktu.text.toString()
             val tanggal = tvTanggal.text.toString()
             val dariKotaKab = spDariKotaKab.selectedItem.toString()
-            val dariStasiun = spDariStasiun.selectedItem.toString()
             val sampaiKotaKab = spSampaiKotaKab.selectedItem.toString()
-            val sampaiStasiun = spSampaiStasiun.selectedItem.toString()
             val hargaTiket = etHargaTiket.text.toString()
             val jumlahTiket = etJumlahTiket.text.toString()
 
@@ -413,7 +463,7 @@ class AdminDetailsTiketActivity : Activity() {
                 if(cekTanggal){
                     // Berhasil
                     loading.alertDialogLoading()
-                    postTambahData(tanggal, waktu, dariKotaKab, dariStasiun, sampaiKotaKab, sampaiStasiun, hargaTiket, jumlahTiket)
+                    postTambahData(tanggal, waktu, dariKotaKab, valueDariStasiun, sampaiKotaKab, valueSampaiStasiun, hargaTiket, jumlahTiket)
                     dialogInputan.dismiss()
                 }
                 else{
@@ -437,6 +487,18 @@ class AdminDetailsTiketActivity : Activity() {
         }
         btnBatal.setOnClickListener {
             dialogInputan.dismiss()
+        }
+    }
+
+    private fun searchHargaTiket(dariStasiun: String, sampaiStasiun: String, etHargaTiket: EditText){
+        val value = arrayRute.filter {
+            it.dari_stasiun == dariStasiun && it.sampai_stasiun==sampaiStasiun
+        }
+
+        if(value.isNotEmpty()){
+            etHargaTiket.setText(value[0].harga)
+        } else{
+            etHargaTiket.setText("0")
         }
     }
 
